@@ -12,9 +12,11 @@
 */
 
 Route::get('/', function () {
+    $test = \App\Models\Comment::all(['id']);
+    dd($test);
     return view('welcome');
 });
 
-Route::get('login', function () {
+Route::get('/login', function () {
     return view('welcome');
 });
