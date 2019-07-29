@@ -49,7 +49,10 @@ class SiteController extends Controller
      */
     public function comment(Request $request, Post $post)
     {
-        $this->validate($request, [['author', 'content'] => 'required']);
+        $this->validate($request, [
+            'author' => 'required',
+            'content' => 'required'
+        ]);
 
         $post->comments()->create([
             'author'    => $request->author,

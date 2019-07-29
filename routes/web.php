@@ -11,4 +11,16 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', 'SiteController@index');
+Route::get('/posts/{post}', 'SiteController@post');
+Route::post('/posts/{post}/comment','SiteController@comment');
+
+Route::group(['prefix' => 'backend', 'namespace' => 'Back-End'], function() {
+    Route::resource('/posts', 'PostController');
+    Route::resource('/categories', 'CategoryController', ['except' => ['show']]);
+    Route::resource('/tags', 'TagController', ['except' => ['show']]);
+    Route::resource('/comments', 'CommentController', ['only' => ['index', 'destroy']]);
+    Route::resource('/users', 'UserController', ['middleware' => 'admin', 'only' => ['index', 'destroy']]);
+});
