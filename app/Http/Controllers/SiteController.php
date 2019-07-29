@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -37,8 +38,8 @@ class SiteController extends Controller
     public function post(Post $post)
     {
         $post = $post->load(['comments', 'category']);
-
-        return view('frontend.post', compact('post'));
+        $categories = Category::all()->take(6);
+        return view('frontend.post', get_defined_vars());
     }
 
     /**
@@ -51,15 +52,17 @@ class SiteController extends Controller
     {
         $this->validate($request, [
             'author' => 'required',
-            'content' => 'required'
+            'body' => 'required'
         ]);
 
         $post->comments()->create([
             'author'    => $request->author,
-            'content'   => $request->content,
+            'content'   => $request->body,
+            'type'      => Comment::TYPE_POST_COMMENT,
+            'data_id'   => $post->id
         ]);
 
-        flash()->overlay('Comment succesfully created');
+//        flash()->overlay('Comment succesfully created');
 
         return redirect("posts/{$post->id}");
     }

@@ -43,6 +43,6 @@ class Post extends Model
      */
     public function comments()
     {
-        return $this->hasMany(Comment::class)->where(['type' => Comment::TYPE_POST_COMMENT]);
+        return $this->hasMany(Comment::class, 'data_id')->where(['type' => Comment::TYPE_POST_COMMENT]);
     }
 }
