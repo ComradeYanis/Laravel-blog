@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Comment
@@ -24,36 +25,41 @@ class Comment extends Model
     //endregion
 
     /**
-     * @return mixed
+     * @var array $fillable
      */
-    public static function getPostsComments() {
+    protected $fillable = [
+        'author',
+        'content',
+        'type',
+        'data_id'
+    ];
 
-        return static::where('type', self::TYPE_POST_COMMENT);
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($comment) {
+
+        });
     }
 
     /**
-     * @param $id
-     * @return mixed
+     * @return BelongsTo|null
      */
-    public static function getPostComments($id) {
+    public function data()
+    {
+        switch ($this->type) {
+            case self::TYPE_CATEGORY_COMMENT :
+                $data = $this->belongsTo(Category::class);
+            break;
+            case self::TYPE_POST_COMMENT :
+                $data = $this->belongsTo(Post::class);
+            break;
+            default :
+                $data = null;
+            break;
+        }
 
-        return static::getPostsComments()->where('data_id', $id)->get();
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function getCategoriesComments() {
-
-        return static::where('type', self::TYPE_CATEGORY_COMMENT);
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public static function getCategoryComments($id) {
-
-        return static::getCategoriesComments()->where('data_id', $id)->get();
+        return $data;
     }
 }
