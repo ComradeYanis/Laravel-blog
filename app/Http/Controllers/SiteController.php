@@ -27,9 +27,9 @@ class SiteController extends Controller
     public function index()
     {
         $posts      = Post::paginate(10);
-        $categories = Category::all()->take(6);
+        $categories = Category::all();
 
-        return view('frontend.index', get_defined_vars());
+        return view('frontend.index', compact('posts', 'categories'));
     }
 
     /**
@@ -39,8 +39,23 @@ class SiteController extends Controller
     public function post(Post $post)
     {
         $post = $post->load(['comments', 'category']);
-        $categories = Category::all()->take(6);
+        $categories = Category::all();
+        $selected_category = $post->category->load(['comments']);
+
         return view('frontend.post', get_defined_vars());
+    }
+
+    /**
+     * @param Category $category
+     * @return Factory|View
+     */
+    public function category(Category $category)
+    {
+        $posts =  $category->hasMany(Post::class)->paginate(10);
+        $categories = Category::all();
+        $selected_category = $category->load(['comments']);
+
+        return view('frontend.index', get_defined_vars());
     }
 
     /**
@@ -49,7 +64,7 @@ class SiteController extends Controller
      * @return RedirectResponse|Redirector
      * @throws ValidationException
      */
-    public function comment(Request $request, Post $post)
+    public function commentPost(Request $request, Post $post)
     {
         $this->validate($request, [
             'author' => ['required', new CommentAuthorRule()],
@@ -57,8 +72,8 @@ class SiteController extends Controller
         ]);
 
         $post->comments()->create([
-            'author'    => $request->author,
-            'content'   => ucwords($request->content),
+            'author'    => ucwords($request->author),
+            'content'   => $request->content,
             'type'      => Comment::TYPE_POST_COMMENT,
             'data_id'   => $post->id
         ]);
@@ -66,5 +81,30 @@ class SiteController extends Controller
 //        flash()->overlay('Comment succesfully created');
 
         return redirect("posts/{$post->id}");
+    }
+
+    /**
+     * @param Request $request
+     * @param Category $category
+     * @return RedirectResponse|Redirector
+     * @throws ValidationException
+     */
+    public function commentCategory(Request $request, Category $category)
+    {
+        $this->validate($request, [
+            'author' => ['required', new CommentAuthorRule()],
+            'content' => 'required'
+        ]);
+
+        $category->comments()->create([
+            'author'    => ucwords($request->author),
+            'content'   => $request->content,
+            'type'      => Comment::TYPE_CATEGORY_COMMENT,
+            'data_id'   => $category->id
+        ]);
+
+//        flash()->overlay('Comment succesfully created');
+
+        return redirect("categories/{$category->id}");
     }
 }

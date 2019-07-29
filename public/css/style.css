@@ -12,3 +12,8 @@
         font-size: 3.5rem;
     }
 }
+
+.scroll {
+    max-height: 100px;
+    overflow-y: auto;
+}

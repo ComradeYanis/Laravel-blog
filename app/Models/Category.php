@@ -36,4 +36,12 @@ class Category extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    /**
+     * @return HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'data_id')->where(['type' => Comment::TYPE_CATEGORY_COMMENT])->orderBy('id', 'desc');
+    }
 }
