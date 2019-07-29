@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Comment
@@ -37,10 +38,6 @@ class Comment extends Model
     protected static function boot()
     {
         parent::boot();
-
-        static::creating(function ($comment) {
-
-        });
     }
 
     /**
@@ -61,5 +58,21 @@ class Comment extends Model
         }
 
         return $data;
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function categories()
+    {
+        return $this->hasMany(Category::class)->where(['type' => self::TYPE_CATEGORY_COMMENT]);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class)->where(['type' => self::TYPE_POST_COMMENT]);
     }
 }

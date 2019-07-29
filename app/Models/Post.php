@@ -25,10 +25,7 @@ class Post extends Model
     {
         parent::boot();
 
-        static::creating(function ($post) {
-        });
-
-        static::deleting(function ($post) {
+        static::deleting(function (Post $post) {
             $post->comments()->delete();
         });
     }
