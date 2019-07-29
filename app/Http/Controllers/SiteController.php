@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Rules\CommentAuthorRule;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -51,13 +52,13 @@ class SiteController extends Controller
     public function comment(Request $request, Post $post)
     {
         $this->validate($request, [
-            'author' => 'required',
-            'body' => 'required'
+            'author' => ['required', new CommentAuthorRule()],
+            'content' => 'required'
         ]);
 
         $post->comments()->create([
             'author'    => $request->author,
-            'content'   => $request->body,
+            'content'   => ucwords($request->content),
             'type'      => Comment::TYPE_POST_COMMENT,
             'data_id'   => $post->id
         ]);
