@@ -75,4 +75,19 @@ class Comment extends Model
     {
         return $this->hasMany(Post::class)->where(['type' => self::TYPE_POST_COMMENT]);
     }
+
+    /**
+     * @return string
+     */
+    public function typeTitle()
+    {
+        switch ($this->type) {
+            case self::TYPE_CATEGORY_COMMENT :
+                return 'comment';
+                break;
+            case self::TYPE_POST_COMMENT :
+                return 'post';
+                break;
+        }
+    }
 }

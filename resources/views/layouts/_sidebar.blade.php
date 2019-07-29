@@ -1,32 +1,38 @@
 
-    <div class="p-4 mb-3 bg-light rounded">
-        <h4 class="font-italic">About</h4>
-        <p class="mb-0">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
-    </div>
 
-    <div class="p-4">
-        <h4 class="font-italic">Archives</h4>
-        <ol class="list-unstyled mb-0">
-            <li><a href="#">March 2014</a></li>
-            <li><a href="#">February 2014</a></li>
-            <li><a href="#">January 2014</a></li>
-            <li><a href="#">December 2013</a></li>
-            <li><a href="#">November 2013</a></li>
-            <li><a href="#">October 2013</a></li>
-            <li><a href="#">September 2013</a></li>
-            <li><a href="#">August 2013</a></li>
-            <li><a href="#">July 2013</a></li>
-            <li><a href="#">June 2013</a></li>
-            <li><a href="#">May 2013</a></li>
-            <li><a href="#">April 2013</a></li>
-        </ol>
+<!-- Categories Widget -->
+<div class="card my-4">
+    <h5 class="card-header">Categories</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                    @foreach($categories as $category)
+                        <li><a href="/categories/{{$category->id}}">{{$category->name}}</a></li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                    <li>
+                        <a href="#">JavaScript</a>
+                    </li>
+                    <li>
+                        <a href="#">CSS</a>
+                    </li>
+                    <li>
+                        <a href="#">Tutorials</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="p-4">
-        <h4 class="font-italic">Elsewhere</h4>
-        <ol class="list-unstyled">
-            <li><a href="#">GitHub</a></li>
-            <li><a href="#">Twitter</a></li>
-            <li><a href="#">Facebook</a></li>
-        </ol>
+<!-- Side Widget -->
+<div class="card my-4">
+    <h5 class="card-header">Side Widget</h5>
+    <div class="card-body">
+        You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
     </div>
+</div>

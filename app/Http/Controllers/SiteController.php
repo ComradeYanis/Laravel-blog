@@ -24,10 +24,10 @@ class SiteController extends Controller
      */
     public function index()
     {
-        $posts      = Post::all();
-        $categories = Category::all();
+        $posts      = Post::paginate(10);
+        $categories = Category::all()->take(6);
 
-        return view('frontend.site.index', get_defined_vars());
+        return view('frontend.index', get_defined_vars());
     }
 
     /**

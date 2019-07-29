@@ -24,20 +24,25 @@
         </script>
     </head>
     <body>
-        @include('layouts.header')
 
-        <main role="main" class="container">
+        @include('layouts.nav')
+        <!-- Page Content -->
+        <div class="container">
+
             <div class="row">
-                <div class="col-md-8 blog-main">
+                <div class="col-md-8">
                     @yield('content')
 
                 </div><!-- /.blog-main -->
-                <aside class="col-md-4 blog-sidebar">
+                <div class="col-md-4">
                     @include('layouts._sidebar')
-                </aside><!-- /.blog-sidebar -->
+                </div><!-- /.blog-sidebar -->
             </div><!-- /.row -->
 
-        </main><!-- /.container -->
+        </div><!-- /.container -->
         @include('layouts.footer')
+        <!-- Bootstrap core JavaScript -->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
