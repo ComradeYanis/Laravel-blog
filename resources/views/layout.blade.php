@@ -34,10 +34,10 @@
         <link href="css/blog.css" rel="stylesheet">
     </head>
     <body>
-    @include('layouts.header')
+    @include('frontend.layouts.header')
 
     @yield('content')
 
-    @include('layouts.footer')
+    @include('frontend.layouts.footer')
     </body>
 </html>
