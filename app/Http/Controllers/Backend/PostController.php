@@ -8,8 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 /**
  * Class PostController
@@ -20,9 +22,9 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $posts = Post::with(['category', 'comments'])->paginate(10);
         return view('backend.posts.index', compact('posts'));
@@ -31,9 +33,9 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         $categories = Category::pluck('name', 'id')->all();
         return view('backend.posts.create', compact('categories'));
@@ -43,9 +45,9 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      *
      * @param PostRequest $request
-     * @return Response
+     * @return RedirectResponse
      */
-    public function store(PostRequest $request)
+    public function store(PostRequest $request): RedirectResponse
     {
         $post = Post::create([
             'name' => $request->name,
@@ -61,9 +63,9 @@ class PostController extends Controller
      * Display the specified resource.
      *
      * @param Post $post
-     * @return Response
+     * @return View
      */
-    public function show(Post $post)
+    public function show(Post $post): View
     {
         $post = $post->load(['category', 'comments']);
         return view('backend.posts.show', compact('post'));
@@ -73,9 +75,9 @@ class PostController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Post $post
-     * @return Response
+     * @return View
      */
-    public function edit(Post $post)
+    public function edit(Post $post): View
     {
         $categories = Category::pluck('name', 'id')->all();
 
@@ -87,16 +89,15 @@ class PostController extends Controller
      *
      * @param PostRequest $request
      * @param Post $post
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(PostRequest $request, Post $post)
+    public function update(PostRequest $request, Post $post): RedirectResponse
     {
         $post->update([
             'name' => $request->name,
             'content' => $request->content,
             'category_id' => $request->category_id
         ]);
-        flash()->overlay('Post updated successfully.');
         return redirect('/backend/posts');
     }
 
@@ -105,12 +106,11 @@ class PostController extends Controller
      *
      * @param Post $post
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(Post $post)
     {
         $post->delete();
-        flash()->overlay('Post deleted successfully.');
         return redirect('/backend/posts');
     }
 }
