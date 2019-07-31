@@ -23,6 +23,7 @@ class SessionMiddleware
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        dd($request->session());
         $value = $request->session();
 
         return $next($request);

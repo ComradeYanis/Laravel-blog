@@ -18,22 +18,8 @@ class DummyDataSeeder extends Seeder
      */
     public function run()
     {
-        factory(Category::class, 10)->create();
-        factory(Tag::class, 10)->create();
-        factory(User::class, 9)->create();
         factory(Post::class, 25)->create();
+        factory(Category::class, 10)->create();
         factory(Comment::class, 40)->create();
-
-        $data = [];
-        for($i=0; $i<60; $i++) {
-            $data[] = [
-                'post_id'    => rand(1, 25),
-                'tag_id'     => rand(1, 10),
-                'created_at' => Carbon::now()->toDateTimeString(),
-                'updated_at' => Carbon::now()->toDateTimeString()
-            ];
-        }
-
-        DB::table('post_tag')->insert($data);
     }
 }
