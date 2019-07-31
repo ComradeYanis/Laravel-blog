@@ -74,6 +74,6 @@ class Kernel extends HttpKernel
         'guest' => RedirectIfAuthenticated::class,
         'throttle' => ThrottleRequests::class,
         'admin' => AdminMiddleware::class,
-        'session' => SessionMiddleware::classб
+        'session' => SessionMiddleware::class
     ];
 }
