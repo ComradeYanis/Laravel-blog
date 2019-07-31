@@ -1,11 +1,9 @@
 <?php
+
 namespace App\Http\Requests;
+
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * Class PostRequest
- * @package App\Http\Requests
- */
 class PostRequest extends FormRequest
 {
     /**
@@ -15,7 +13,7 @@ class PostRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,9 +24,9 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'       => 'required',
-            'content'        => 'required',
-            'category_id' => 'required'
+            'name'          => 'required',
+            'content'       => 'required',
+            'category_id'   => 'required',
         ];
     }
 }

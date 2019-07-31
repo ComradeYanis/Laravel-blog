@@ -1,23 +1,39 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('content')
+    <div class="container">
+        <div class="row">
 
-    <div class="card mb-4">
-        <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-        <div class="card-body">
-            <h2 class="card-title">{{$post->name}}</h2>
-            <p class="card-text">{{$post->content}}</p>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{ $post->title }} - <small>by {{ $post->user->name }}</small>
 
-            @include('frontend._form')
+                        <span class="pull-right">
+                            {{ $post->created_at->toDayDateTimeString() }}
+                        </span>
+                    </div>
 
-            @include('frontend._comments')
+                    <div class="panel-body">
+                        <p>{{ $post->body }}</p>
+                        <p>
+                            Category: <span class="label label-success">{{ $post->category->name }}</span> <br>
+                            Tags:
+                            @forelse ($post->tags as $tag)
+                                <span class="label label-default">{{ $tag->name }}</span>
+                            @empty
+                                <span class="label label-danger">No tag found.</span>
+                            @endforelse
+                        </p>
+                    </div>
+                </div>
 
-        </div>
-        <div class="card-footer text-muted">
-            <p>
-                Category: <span class="label label-success">{{ $post->category->name }}</span> <br>
-            </p>
-            <p>{{ $post->created_at->toDayDateTimeString() }}</p>
-        </div>
-    </div>
+                @includeWhen(Auth::user(), 'frontend._form')
+
+                @include('frontend._comments')
+
+            </div>
+
+        </dev>
+    </dev>
 @endsection

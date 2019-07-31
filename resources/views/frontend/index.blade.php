@@ -1,32 +1,57 @@
-@extends('layout')
+@extends('layouts.app')
+
 @section('content')
-    <h3 class="pb-4 mb-4 font-italic border-bottom">
-        From the Firehose
-    </h3>
+    <div class="container">
 
-    @forelse($posts as $post)
-        <!-- Blog Post -->
-        <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-                <h2 class="card-title">{{$post->name}}</h2>
-                <p class="card-text">{{str_limit($post->content, 200)}}</p>
-                <a href="{{url("/posts/{$post->id}")}}" class="btn btn-primary">Read More &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-                {{$post->created_at->toDayDAteTimeString()}} in category"
-                <a href=" {{url("/categories/{$post->category->id}")}}">{{$post->category->name}}"</a>
-            </div>
-        </div>
-    @empty
-        <div class="blog-post">
-            <h1>No posts found</h1>
-        </div>
-    @endforelse
+        @include('frontend._search')
 
-    <div class="blog-pagination">
-        {!! $posts->appends(['search' => request()->get('search')])->links() !!}
+        <div class="row">
+
+            <div class="col-md-12">
+                @forelse ($posts as $post)
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {{ $post->title }} - <small>by {{ $post->user->name }}</small>
+
+                            <span class="pull-right">
+                                {{ $post->created_at->toDayDateTimeString() }}
+                            </span>
+                        </div>
+
+                        <div class="panel-body">
+                            <p>{{ str_limit($post->body, 200) }}</p>
+                            <p>
+                                Tags:
+                                @forelse ($post->tags as $tag)
+                                    <span class="label label-default">{{ $tag->name }}</span>
+                                @empty
+                                    <span class="label label-danger">No tag found.</span>
+                                @endforelse
+                            </p>
+                            <p>
+                                <span class="btn btn-sm btn-success">{{ $post->category->name }}</span>
+                                <span class="btn btn-sm btn-info">Comments <span class="badge">{{ $post->comments_count }}</span></span>
+
+                                <a href="{{ url("/posts/{$post->id}") }}" class="btn btn-sm btn-primary">See more</a>
+                            </p>
+                        </div>
+                    </div>
+                @empty
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Not Found!!</div>
+
+                        <div class="panel-body">
+                            <p>Sorry! No post found.</p>
+                        </div>
+                    </div>
+                @endforelse
+
+                <div align="center">
+                    {!! $posts->appends(['search' => request()->get('search')])->links() !!}
+                </div>
+
+            </div>
+
+        </div>
     </div>
-
-
 @endsection

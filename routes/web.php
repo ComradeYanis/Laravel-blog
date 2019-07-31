@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,18 +11,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'SiteController@index');
-Route::get('/posts/{post}', 'SiteController@post');
-Route::post('/posts/{post}/comment','SiteController@commentPost');
-Route::get('/categories','SiteController@categories');
-Route::get('/categories/{category}','SiteController@category');
-Route::post('/categories/{category}/comment','SiteController@commentCategory');
+Route::get('/', 'BlogController@index')->middleware('session');
+Route::get('/posts/{post}', 'BlogController@post')->middleware('session');
+Route::post('/posts/{post}/comment', 'BlogController@comment')->middleware('session');
 
-Route::group(['prefix' => 'backend', 'namespace' => 'Backend'], function() {
-    Route::resource('/', 'PostController');
-    Route::resource('/posts', 'PostController');
-    Route::resource('/categories', 'CategoryController', ['except' => ['show']]);
-    Route::resource('/tags', 'TagController', ['except' => ['show']]);
-    Route::resource('/comments', 'CommentController', ['only' => ['index', 'destroy']]);
-    Route::resource('/users', 'UserController', ['middleware' => 'admin', 'only' => ['index', 'destroy']]);
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->middleware('session');
+
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function() {
+    Route::resource('/posts', 'PostController')->middleware('session');
+    Route::resource('/categories', 'CategoryController', ['except' => ['show']])->middleware('session');
+    Route::resource('/comments', 'CommentController', ['only' => ['index', 'destroy']])->middleware('session');
 });

@@ -2,92 +2,46 @@
 
 namespace App\Models;
 
+use App\User;
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/**
- * Class Comment
- * @package App\Models
- */
 class Comment extends Model
 {
-
-    //region CONSTS
-    /**
-     * @const TYPE_CATEGORY_COMMENT
-     */
-    public const TYPE_CATEGORY_COMMENT = 1;
-
     /**
      * @const TYPE_POST_COMMENT
      */
-    public const TYPE_POST_COMMENT = 2;
-    //endregion
+    public const TYPE_POST_COMMENT = 1;
 
     /**
-     * @var array $fillable
+     * @const TYPE_CATEGORY_COMMENT
+     */
+    public const TYPE_CATEGORY_COMMENT = 2;
+
+    /**
+     * @var array
      */
     protected $fillable = [
         'author',
         'content',
-        'type',
-        'data_id'
+        'data_id',
+        'type'
     ];
 
     protected static function boot()
     {
         parent::boot();
+
+        static::creating(function ($comment) {
+        });
     }
 
     /**
-     * @return BelongsTo|null
+     * @return BelongsTo
      */
     public function data()
     {
-        switch ($this->type) {
-            case self::TYPE_CATEGORY_COMMENT :
-                $data = $this->belongsTo(Category::class);
-            break;
-            case self::TYPE_POST_COMMENT :
-                $data = $this->belongsTo(Post::class);
-            break;
-            default :
-                $data = null;
-            break;
-        }
-
-        return $data;
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function categories()
-    {
-        return $this->hasMany(Category::class, 'id');
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function posts()
-    {
-        return $this->hasMany(Post::class, 'id');
-    }
-
-    /**
-     * @return string
-     */
-    public function typeTitle()
-    {
-        switch ($this->type) {
-            case self::TYPE_CATEGORY_COMMENT :
-                return 'comment';
-                break;
-            case self::TYPE_POST_COMMENT :
-                return 'post';
-                break;
-        }
+        return $this->type === self::TYPE_POST_COMMENT ? $this->belongsTo(Post::class, 'id', 'data_id') : $this->belongsTo(Category::class, 'id', 'data_id');
     }
 }

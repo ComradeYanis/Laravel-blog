@@ -1,21 +1,16 @@
 <?php
 
-
-namespace App\Http\Controllers\Backend;
-
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PostRequest;
 use App\Models\Category;
-use App\Models\Post;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 
 /**
  * Class CategoryController
- * @package App\Http\Controllers\Backend
+ * @package App\Http\Controllers\Admin
  */
 class CategoryController extends Controller
 {
@@ -26,8 +21,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $posts = Category::withCount('posts')->paginate(10);
-        return view('backend.posts.index', compact('posts'));
+        $categories = Category::withCount('posts')->paginate(10);
+
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -37,7 +33,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('backend.categories.create');
+        return view('admin.categories.create');
     }
 
     /**
@@ -49,24 +45,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['name' => 'required']);
+        $this->validate($request, [
+            'name'          => 'required',
+            'description'   => 'required'
+        ]);
 
-        Category::create(['name' => $request->name]);
+        Category::create([
+            'name' => $request->name,
+            'content' => $request->content,
+        ]);
+        flash()->overlay('Category created successfully');
 
-        flash()->overlay('Category created successfully.');
-        return redirect('/backend/posts');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Post $post
-     * @return Response
-     */
-    public function show(Post $post)
-    {
-        $post = $post->load(['category', 'comments']);
-        return view('backend.posts.show', compact('post'));
+        return redirect('/admin/categories');
     }
 
     /**
@@ -77,7 +67,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('backend.categories.edit', compact('category'));
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -90,11 +80,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $this->validate($request, ['name' => 'required']);
+        $this->validate($request, [
+            'name'          => 'required',
+            'description'   => 'required'
+        ]);
 
         $category->update($request->all());
-        flash()->overlay('Category updated successfully.');
-        return redirect('/backend/categories');
+        flash()->overlay('Category updated successfully');
+
+        return redirect('/admin/categories');
     }
 
     /**
@@ -102,12 +96,13 @@ class CategoryController extends Controller
      *
      * @param Category $category
      * @return Response
-     * @throws Exception
+     * @throws \Exception
      */
     public function destroy(Category $category)
     {
         $category->delete();
-        flash()->overlay('Category deleted successfully.');
-        return redirect('/backend/categories');
+        flash()->overlay('Category deleted successfully');
+
+        return redirect('/admin/categories');
     }
 }

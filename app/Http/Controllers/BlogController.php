@@ -14,22 +14,27 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 /**
- * Class SiteController
+ * Class BlogController
  * @package App\Http\Controllers
  */
-class SiteController extends Controller
+class BlogController extends Controller
 {
-
     /**
-     * Home/Main page
+     * @param Request $request
      * @return Factory|View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts      = Post::paginate(10);
-        $categories = Category::all();
+        $posts = Post::when($request->search, function ($query) use ($request) {
+            $search = $request->search;
 
-        return view('frontend.index', compact('posts', 'categories'));
+            return $query->where('title', 'like', "%$search%")
+                ->orWhere('body', 'like', "%$search%");
+        })->with('category')
+            ->withCount('comments')
+            ->simplePaginate(5);
+
+        return view('frontend.index', compact('posts'));
     }
 
     /**
@@ -39,23 +44,8 @@ class SiteController extends Controller
     public function post(Post $post)
     {
         $post = $post->load(['comments', 'category']);
-        $categories = Category::all();
-        $selected_category = $post->category->load(['comments']);
 
-        return view('frontend.post', get_defined_vars());
-    }
-
-    /**
-     * @param Category $category
-     * @return Factory|View
-     */
-    public function category(Category $category)
-    {
-        $posts =  $category->hasMany(Post::class)->paginate(10);
-        $categories = Category::all();
-        $selected_category = $category->load(['comments']);
-
-        return view('frontend.index', get_defined_vars());
+        return view('frontend.post', compact('post'));
     }
 
     /**
@@ -64,7 +54,7 @@ class SiteController extends Controller
      * @return RedirectResponse|Redirector
      * @throws ValidationException
      */
-    public function commentPost(Request $request, Post $post)
+    public function comment(Request $request, Post $post)
     {
         $this->validate($request, [
             'author' => ['required', new CommentAuthorRule()],
@@ -78,9 +68,9 @@ class SiteController extends Controller
             'data_id'   => $post->id
         ]);
 
-//        flash()->overlay('Comment succesfully created');
+        flash()->overlay('Comment successfully created');
 
-        return redirect("posts/{$post->id}");
+        return redirect("/posts/{$post->id}");
     }
 
     /**
@@ -103,8 +93,8 @@ class SiteController extends Controller
             'data_id'   => $category->id
         ]);
 
-//        flash()->overlay('Comment succesfully created');
+        flash()->overlay('Comment succesfully created');
 
-        return redirect("categories/{$category->id}");
+        return redirect(Request::url());
     }
 }
