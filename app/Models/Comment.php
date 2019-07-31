@@ -65,7 +65,7 @@ class Comment extends Model
      */
     public function categories()
     {
-        return $this->hasMany(Category::class)->where(['type' => self::TYPE_CATEGORY_COMMENT]);
+        return $this->hasMany(Category::class, 'id');
     }
 
     /**
@@ -73,7 +73,7 @@ class Comment extends Model
      */
     public function posts()
     {
-        return $this->hasMany(Post::class)->where(['type' => self::TYPE_POST_COMMENT]);
+        return $this->hasMany(Post::class, 'id');
     }
 
     /**

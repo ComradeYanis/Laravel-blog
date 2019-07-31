@@ -7,24 +7,23 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @auth
-        <meta name="api-token" content="{{ auth()->user()->api_token }}">
-    @endauth
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
-    <link href="{{ mix('/css/admin.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/blog.css') }}" rel="stylesheet">
+    <!-- Bootstrap styles for this template -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="admin-body bg-dark">
-@include('admin/shared/navbar')
+@include('backend/layouts/navbar')
 
 <div class="content-wrapper bg-light">
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                @include('shared/alerts')
+                @include('backend/layouts/alerts')
 
                 <div class="card">
                     <div class="card-body">
@@ -36,8 +35,8 @@
     </div>
 </div>
 
-<!-- Scripts -->
-<script src="{{ mix('/js/app.js') }}"></script>
-<script src="{{ mix('/js/admin.js') }}"></script>
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -25,7 +25,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::with(['posts', 'categories'])->paginate(10);
+        $comments = Comment::with(['posts'])->where(['type' => Comment::TYPE_POST_COMMENT])->get();
+        $comments[] = Comment::with(['categories'])->where(['type' => Comment::TYPE_CATEGORY_COMMENT])->get();
         return view('backend.comments.index', compact('comments'));
     }
 }

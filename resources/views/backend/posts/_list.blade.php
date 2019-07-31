@@ -15,11 +15,11 @@
             <td>{{ $post->created_at }}</td>
             <td><span class="badge badge-pill badge-secondary">{{ $post->comments_count }}</span></td>
             <td>
-                <a href="{{ route('backend.posts.edit', $post) }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('posts.edit', $post) }}" class="btn btn-primary btn-sm">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
 
-                {!! Form::model($post, ['method' => 'DELETE', 'route' => ['backend.posts.destroy', $post], 'class' => 'form-inline', 'data-confirm' => __('forms.posts.delete')]) !!}
+                {!! Form::model($post, ['method' => 'DELETE', 'route' => ['posts.destroy', $post], 'class' => 'form-inline', 'data-confirm' => __('forms.posts.delete')]) !!}
                 {!! Form::button('<i class="fa fa-trash" aria-hidden="true"></i>', ['class' => 'btn btn-danger btn-sm', 'name' => 'submit', 'type' => 'submit']) !!}
                 {!! Form::close() !!}
             </td>
