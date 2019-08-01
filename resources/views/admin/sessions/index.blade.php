@@ -8,7 +8,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h2>
-                            Comments
+                            Sessions
                         </h2>
                     </div>
 
@@ -16,19 +16,19 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Post</th>
-                                    <th>Comment</th>
-                                    <th>Action</th>
+                                    <th>User Id</th>
+                                    <th>IP</th>
+                                    <th>Agent</th>
+                                    <th>Last activity</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($comments as $comment)
+                                @forelse ($sessions as $session)
                                     <tr>
-                                        <td>{{ $comment->data->name }}</td>
-                                        <td>{{ $comment->body }}</td>
-                                        <td>
-                                            <a href="{{ url("/admin/comments/{$comment->id}") }}" data-method="DELETE" data-token="{{ csrf_token() }}" data-confirm="Are you sure?" class="btn btn-xs btn-danger">Delete</a>
-                                        </td>
+                                        <td>{{ $session->user_id }}</td>
+                                        <td>{{ $session->ip_address }}</td>
+                                        <td>{{ $session->user_agent }}</td>
+                                        <td>{{ $session->created_at->diffForHumans()." ($session->last_activity)" }}</td>
                                     </tr>
                                 @empty
                                     <tr>
@@ -38,7 +38,7 @@
                             </tbody>
                         </table>
 
-                        {!! $comments->links() !!}
+                        {!! $sessions->links() !!}
 
                     </div>
                 </div>
