@@ -1,23 +1,23 @@
-<div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
-    {!! Form::label('title', 'Title', ['class' => 'col-md-2 control-label']) !!}
+<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+    {!! Form::label('name', 'Name', ['class' => 'col-md-2 control-label']) !!}
 
     <div class="col-md-8">
-        {!! Form::text('title', null, ['class' => 'form-control', 'required', 'autofocus']) !!}
+        {!! Form::text('name', null, ['class' => 'form-control', 'required', 'autofocus']) !!}
 
         <span class="help-block">
-            <strong>{{ $errors->first('title') }}</strong>
+            <strong>{{ $errors->first('name') }}</strong>
         </span>
     </div>
 </div>
 
-<div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
-    {!! Form::label('body', 'Body', ['class' => 'col-md-2 control-label']) !!}
+<div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">
+    {!! Form::label('content', 'Content', ['class' => 'col-md-2 control-label']) !!}
 
     <div class="col-md-8">
-        {!! Form::textarea('body', null, ['class' => 'form-control', 'required']) !!}
+        {!! Form::textarea('content', null, ['class' => 'form-control', 'required']) !!}
 
         <span class="help-block">
-            <strong>{{ $errors->first('body') }}</strong>
+            <strong>{{ $errors->first('content') }}</strong>
         </span>
     </div>
 </div>
@@ -30,26 +30,6 @@
 
         <span class="help-block">
             <strong>{{ $errors->first('category_id') }}</strong>
-        </span>
-    </div>
-</div>
-
-@php
-    if(isset($post)) {
-        $tag = $post->tags->pluck('name')->all();
-    } else {
-        $tag = null;
-    }
-@endphp
-
-<div class="form-group{{ $errors->has('tags') ? ' has-error' : '' }}">
-    {!! Form::label('tags', 'Tag', ['class' => 'col-md-2 control-label']) !!}
-
-    <div class="col-md-8">
-        {!! Form::select('tags[]', $tags, $tag, ['class' => 'form-control select2-tags', 'required', 'multiple']) !!}
-
-        <span class="help-block">
-            <strong>{{ $errors->first('tags') }}</strong>
         </span>
     </div>
 </div>

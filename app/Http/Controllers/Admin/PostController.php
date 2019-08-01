@@ -21,7 +21,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['user', 'category', 'comments'])->paginate(10);
+        $posts = Post::with(['category', 'comments'])->paginate(10);
 
         return view('admin.posts.index', compact('posts'));
     }
@@ -47,8 +47,8 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $post = Post::create([
-            'name' => $request->title,
-            'content' => $request->body,
+            'name' => $request->name,
+            'content' => $request->content,
             'category_id' => $request->category_id
         ]);
         flash()->overlay('Post created successfully.');
@@ -64,7 +64,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post = $post->load(['user', 'category', 'comments']);
+        $post = $post->load(['category', 'comments']);
 
         return view('admin.posts.show', compact('post'));
     }
