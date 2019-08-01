@@ -15,11 +15,8 @@ Route::get('/', 'BlogController@index')->middleware('session');
 Route::get('/posts/{post}', 'BlogController@post')->middleware('session');
 Route::post('/posts/{post}/comment', 'BlogController@comment')->middleware('session');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->middleware('session');
-
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'session'], function() {
+    Route::resource('/', 'PostController');
     Route::resource('/posts', 'PostController');
     Route::resource('/categories', 'CategoryController', ['except' => ['show']]);
     Route::resource('/comments', 'CommentController', ['only' => ['index', 'destroy']]);

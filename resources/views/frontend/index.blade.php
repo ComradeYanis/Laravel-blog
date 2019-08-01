@@ -7,7 +7,7 @@
 
         <div class="row">
 
-            <div class="col-md-12">
+            <div class="col-md-8">
                 @forelse ($posts as $post)
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -43,6 +43,7 @@
                 </div>
 
             </div>
+            @include('layouts._sidebar')
 
         </div>
     </div>

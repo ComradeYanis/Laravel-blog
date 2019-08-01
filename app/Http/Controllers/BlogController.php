@@ -34,7 +34,9 @@ class BlogController extends Controller
             ->withCount('comments')
             ->simplePaginate(5);
 
-        return view('frontend.index', compact('posts'));
+        $categories = Category::all();
+
+        return view('frontend.index', compact('posts', 'categories'));
     }
 
     /**
@@ -44,8 +46,9 @@ class BlogController extends Controller
     public function post(Post $post)
     {
         $post = $post->load(['comments', 'category']);
+        $categories = Category::all();
 
-        return view('frontend.post', compact('post'));
+        return view('frontend.post', compact('post', 'category'));
     }
 
     /**
