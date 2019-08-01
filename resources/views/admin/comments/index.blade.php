@@ -9,8 +9,6 @@
                     <div class="panel-heading">
                         <h2>
                             Comments
-
-                            <a href="{{ url('admin/comments/create') }}" class="btn btn-default pull-right">Create New</a>
                         </h2>
                     </div>
 
