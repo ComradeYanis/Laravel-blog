@@ -28,8 +28,8 @@ class BlogController extends Controller
         $posts = Post::when($request->search, function ($query) use ($request) {
             $search = $request->search;
 
-            return $query->where('title', 'like', "%$search%")
-                ->orWhere('body', 'like', "%$search%");
+            return $query->where('name', 'like', "%$search%")
+                ->orWhere('content', 'like', "%$search%");
         })->with('category')
             ->withCount('comments')
             ->simplePaginate(5);
@@ -47,8 +47,22 @@ class BlogController extends Controller
     {
         $post = $post->load(['comments', 'category']);
         $categories = Category::all();
+        $selected_category = $post->category->load(['comments']);
 
-        return view('frontend.post', compact('post', 'category'));
+        return view('frontend.post', get_defined_vars());
+    }
+
+    /**
+     * @param Category $category
+     * @return Factory|View
+     */
+    public function category(Category $category)
+    {
+        $posts = Post::where(['category_id' => $category->id])->paginate(5);
+        $categories = Category::all();
+        $selected_category = $category->load(['comments']);
+
+        return view('frontend.index', get_defined_vars());
     }
 
     /**
@@ -57,7 +71,7 @@ class BlogController extends Controller
      * @return RedirectResponse|Redirector
      * @throws ValidationException
      */
-    public function comment(Request $request, Post $post)
+    public function commentPost(Request $request, Post $post)
     {
         $this->validate($request, [
             'author' => ['required', new CommentAuthorRule()],

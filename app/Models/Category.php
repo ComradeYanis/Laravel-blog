@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -23,8 +23,19 @@ class Category extends Model
         });
     }
 
+    /**
+     * @return HasMany
+     */
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'data_id')->where(['type' => Comment::TYPE_CATEGORY_COMMENT]);
     }
 }

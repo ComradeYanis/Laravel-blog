@@ -12,8 +12,10 @@
 */
 
 Route::get('/', 'BlogController@index')->middleware('session');
+Route::get('/categories/{category}', 'BlogController@category')->middleware('session');
 Route::get('/posts/{post}', 'BlogController@post')->middleware('session');
-Route::post('/posts/{post}/comment', 'BlogController@comment')->middleware('session');
+Route::post('/posts/{post}/comment', 'BlogController@commentPost')->middleware('session');
+Route::post('/categories/{category}/comment', 'BlogController@commentCategory')->middleware('session');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'session'], function() {
     Route::resource('/', 'PostController');
