@@ -15,9 +15,9 @@
         </div>
         @if(isset($selected_category))
             <div class="panel-footer">
-                <div class="card my-4">
-                    <h5 class="card-header">{{$category->name}}</h5>
-                    <div class="card-body scroll">
+                <div class="card my-6">
+                    <h3 class="card-header"><b>{{$category->name}}</b></h3>
+                    <div class="card-body scroll" style="margin-bottom: 25px">
                         @include('layouts._comments')
                     </div>
                     <div class="card-footer">

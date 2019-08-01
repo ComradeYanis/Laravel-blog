@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -112,6 +113,6 @@ class BlogController extends Controller
 
         flash()->overlay('Comment succesfully created');
 
-        return redirect(Request::url());
+        return Redirect::back();
     }
 }
