@@ -1,5 +1,8 @@
 <?php
 
+use hisorange\BrowserDetect\Facade\Parser;
+use hisorange\BrowserDetect\Provider\BrowserDetectService;
+
 return [
 
     /*
@@ -179,6 +182,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        BrowserDetectService::class
+
     ],
 
     /*
@@ -199,6 +204,7 @@ return [
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
         'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
+        'BrowserDetect' => Parser::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
         'Config' => Illuminate\Support\Facades\Config::class,
