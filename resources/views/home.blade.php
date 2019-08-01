@@ -26,16 +26,6 @@
 
             <div class="col-md-3">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Tags</div>
-
-                    <div class="panel-body">
-                        <h1>{{ $tags }}</h1>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="panel panel-default">
                     <div class="panel-heading">Categories</div>
 
                     <div class="panel-body">

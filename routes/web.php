@@ -19,8 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->middleware('session');
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function() {
-    Route::resource('/posts', 'PostController')->middleware('session');
-    Route::resource('/categories', 'CategoryController', ['except' => ['show']])->middleware('session');
-    Route::resource('/comments', 'CommentController', ['only' => ['index', 'destroy']])->middleware('session');
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'session'], function() {
+    Route::resource('/posts', 'PostController');
+    Route::resource('/categories', 'CategoryController', ['except' => ['show']]);
+    Route::resource('/comments', 'CommentController', ['only' => ['index', 'destroy']]);
 });
