@@ -19,6 +19,9 @@
                         </div>
 
                         <div class="panel-body">
+                            <p>
+                                <img src="{{'/images/'.$post->image}}" style="max-width: 100%; max-height: 100%" alt="image">
+                            </p>
                             <p>{{ str_limit($post->content, 200) }}</p>
                             <p>
                                 <span class="btn btn-sm btn-success">{{ $post->category->name }}</span>

@@ -10,5 +10,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Session extends Model
 {
-    //
+    /**
+     * @var array $fillable
+     */
+    protected $fillable = [
+        'user_id',
+        'ip_address',
+        'last_activity',
+        'user_agent'
+    ];
 }

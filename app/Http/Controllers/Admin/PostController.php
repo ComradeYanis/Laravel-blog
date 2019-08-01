@@ -46,10 +46,12 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
+        $image = $this->uploadImage();
         $post = Post::create([
-            'name' => $request->name,
-            'content' => $request->content,
-            'category_id' => $request->category_id
+            'name'          => $request->name,
+            'content'       => $request->content,
+            'category_id'   => $request->category_id,
+            'image'         => $image
         ]);
         flash()->overlay('Post created successfully.');
 
@@ -91,11 +93,18 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        $post->update([
+        $update = [
             'name' => $request->name,
             'content' => $request->content,
             'category_id' => $request->category_id
-        ]);
+        ];
+
+        if(request()->image) {
+            $update .= ['image' => $this->uploadImage()];
+        }
+
+        $post->update($update);
+
         flash()->overlay('Post updated successfully.');
 
         return redirect('/admin/posts');
@@ -114,5 +123,21 @@ class PostController extends Controller
         flash()->overlay('Post deleted successfully.');
 
         return redirect('/admin/posts');
+    }
+
+    /**
+     * @return string
+     */
+    private function uploadImage()
+    {
+        request()->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $imageName = time().'.'.request()->image->getClientOriginalExtension();
+
+        request()->image->move(public_path('images'), $imageName);
+
+        return $imageName;
     }
 }

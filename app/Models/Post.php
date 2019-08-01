@@ -14,6 +14,7 @@ class Post extends Model
         'name',
         'content',
         'category_id',
+        'image'
     ];
 
     protected static function boot()

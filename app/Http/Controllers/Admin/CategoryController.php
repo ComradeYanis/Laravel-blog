@@ -52,7 +52,7 @@ class CategoryController extends Controller
 
         Category::create([
             'name' => $request->name,
-            'content' => $request->content,
+            'description' => $request->description,
         ]);
         flash()->overlay('Category created successfully');
 

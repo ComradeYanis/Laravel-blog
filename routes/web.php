@@ -21,5 +21,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'sess
     Route::resource('/', 'PostController');
     Route::resource('/posts', 'PostController');
     Route::resource('/categories', 'CategoryController', ['except' => ['show']]);
-    Route::resource('/comments', 'CommentController', ['only' => ['index', 'destroy']]);
+    Route::resource('/comments', 'CommentController', ['only' => ['index']]);
+    Route::resource('/sessions', 'SessionController', ['only' => ['index']]);
 });

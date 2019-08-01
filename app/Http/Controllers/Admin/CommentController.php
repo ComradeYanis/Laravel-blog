@@ -23,19 +23,4 @@ class CommentController extends Controller
 
         return view('admin.comments.index', compact('comments'));
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Comment $comment
-     * @return Response
-     * @throws \Exception
-     */
-    public function destroy(Comment $comment)
-    {
-        $comment->delete();
-        flash()->overlay('Comment deleted successfully.');
-
-        return redirect('/admin/comments');
-    }
 }
