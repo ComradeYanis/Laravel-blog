@@ -19,6 +19,7 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Description</th>
                                     <th>Post Count</th>
                                     <th>Action</th>
                                 </tr>
@@ -27,6 +28,7 @@
                                 @forelse ($categories as $category)
                                     <tr>
                                         <td>{{ $category->name }}</td>
+                                        <td>{{ str_limit($category->description, 60) }}</td>
                                         <td>{{ $category->posts_count }}</td>
                                         <td>
                                             <a href="{{ url("/admin/categories/{$category->id}/edit") }}" class="btn btn-xs btn-info">Edit</a>

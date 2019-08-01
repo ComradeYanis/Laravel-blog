@@ -42,6 +42,6 @@ class Comment extends Model
      */
     public function data()
     {
-        return $this->type === self::TYPE_POST_COMMENT ? $this->belongsTo(Post::class, 'id', 'data_id') : $this->belongsTo(Category::class, 'id', 'data_id');
+        return $this->type == self::TYPE_POST_COMMENT ? $this->belongsTo(Post::class, 'data_id', 'id') : $this->belongsTo(Category::class, 'data_id', 'id');
     }
 }
